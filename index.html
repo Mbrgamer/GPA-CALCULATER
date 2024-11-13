@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+	<link rel="shortcut icon" href="grade.png" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <h1>GPA Calculator</h1>
+
+        <!-- User Input for Previous GPA and Credits -->
+        <form id="gpa-form">
+            <h3>Enter Your Current GPA and Completed Credit Hours</h3>
+            <div class="input-field">
+                <label for="current-gpa">Current GPA:</label>
+                <input type="number" id="current-gpa" step="0.01" placeholder="e.g., 3.50" required>
+            </div>
+            <div class="input-field">
+                <label for="completed-credits">Completed Credit Hours:</label>
+                <input type="number" id="completed-credits" placeholder="e.g., 30" required>
+            </div>
+
+            <h3>Enter Course Details</h3>
+            <div id="courses-container">
+                <div class="course">
+                    <div class="course-info">
+                        <label for="course-credit-1">Credit Hours (Course 1):</label>
+                        <input type="number" id="course-credit-1" placeholder="e.g., 3" required>
+
+                        <label for="course-grade-1">Grade (Course 1):</label>
+                        <input type="text" id="course-grade-1" placeholder="A, B+, etc." required>
+                    </div>
+
+                    <label for="course-repeated-1">Is this course repeated?</label>
+                    <input type="checkbox" id="course-repeated-1">
+
+                    <div class="previous-grade" id="previous-grade-1" style="display: none;">
+                        <label for="previous-grade-input-1">Previous Grade:</label>
+                        <input type="text" id="previous-grade-input-1" placeholder="A, B+, etc.">
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" id="add-course">Add Another Course</button>
+
+            <button type="submit">Calculate GPA</button>
+        </form>
+        
+        <div class="result">
+            <h2>Your GPA: <span id="gpa-result">-</span></h2>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
