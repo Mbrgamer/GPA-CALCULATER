@@ -35,36 +35,17 @@ document.getElementById("add-course").addEventListener("click", function () {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const repeatedCheckboxCourse1 = document.getElementById("course-repeated-1");
-    const previousGradeContainerCourse1 = document.getElementById("previous-grade-1");
-    
-    if (repeatedCheckboxCourse1.checked) {
-        previousGradeContainerCourse1.style.display = "block";
-    } else {
-        previousGradeContainerCourse1.style.display = "none";
-    }
-
-    repeatedCheckboxCourse1.addEventListener("change", function () {
-        previousGradeContainerCourse1.style.display = this.checked ? "block" : "none";
-    });
-});
-
-// Recalculate GPA when the button is clicked
 document.getElementById("gpa-form").addEventListener("submit", function (e) {
     e.preventDefault();
-
-    document.getElementById("gpa-result").textContent = "";
 
     const currentGPA = parseFloat(document.getElementById("current-gpa").value);
     const completedCredits = parseFloat(document.getElementById("completed-credits").value);
 
     let totalPoints = currentGPA * completedCredits;
-    let totalCreditHours = completedCredits; // Do NOT add credits for repeated courses
+    let totalCreditHours = completedCredits;
+    let sgpaPoints = 0;
+    let sgpaCredits = 0;
 
-    let valid = true;
-
-    // Grade point mappings
     const gradePoints = {
         "A": 4.00,
         "A-": 3.67,
@@ -86,26 +67,22 @@ document.getElementById("gpa-form").addEventListener("submit", function (e) {
         const isRepeated = document.getElementById(`course-repeated-${i}`).checked;
         const previousGrade = document.getElementById(`previous-grade-input-${i}`).value.trim();
 
-        // Check if grade and credit hour are valid
         if (gradePoints[grade] && creditHours > 0) {
             let points = gradePoints[grade] * creditHours;
+            sgpaPoints += points;
+            sgpaCredits += creditHours;
 
             if (isRepeated && previousGrade && gradePoints[previousGrade] !== undefined) {
-                // Subtract points for previous grade and add new grade points
-                points -= gradePoints[previousGrade] * creditHours; // Subtract old grade
+                points -= gradePoints[previousGrade] * creditHours;
             }
 
             totalPoints += points;
-        } else {
-            valid = false;
-            break;
         }
     }
 
-    if (valid && totalCreditHours > 0) {
-        const gpa = (totalPoints / totalCreditHours).toFixed(3);
-        document.getElementById("gpa-result").textContent = `Your GPA is: ${gpa}`;
-    } else {
-        document.getElementById("gpa-result").textContent = "Invalid input";
-    }
+    const cgpa = totalPoints / totalCreditHours;
+    const sgpa = sgpaCredits ? sgpaPoints / sgpaCredits : 0;
+
+    document.getElementById("cgpa-result").textContent = cgpa.toFixed(3);
+    document.getElementById("sgpa-result").textContent = sgpa.toFixed(3);
 });
